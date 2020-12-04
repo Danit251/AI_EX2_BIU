@@ -15,8 +15,7 @@ class Player(SimpleP):
         if state.turns_since_last_jump >= MAX_TURNS_NO_JUMP:
             return 0
 
-        player_u = self.get_player_utility(state.board)
-        opponent_u = self.get_opponent_utility(state.board)
+        player_u, opponent_u = self.get_players_utility(state.board)
 
         if player_u == 0:
             # I have no tools left
@@ -27,25 +26,25 @@ class Player(SimpleP):
         else:
             return player_u - opponent_u
 
-    def get_player_utility(self, board):
-        score = 0
-        for (row, col), val in board.items():
-            if val == PAWN_COLOR[self.color]:
-                score += row + 1
-            if val == KING_COLOR[self.color]:
-                score += BOARD_ROWS
-        return score
-
-    def get_opponent_utility(self, board):
-        score = 0
+    def get_players_utility(self, board):
+        my_score = 0
+        score_score = 0
         opponent_color = OPPONENT_COLOR[self.color]
 
         for (row, col), val in board.items():
+            # my pawn
+            if val == PAWN_COLOR[self.color]:
+                my_score += row + 1
+
+            # opponent's pawn
             if val == PAWN_COLOR[opponent_color]:
-                score += BOARD_ROWS - row + 1
-            if val == KING_COLOR[opponent_color]:
-                score += BOARD_ROWS
-        return score
+                score_score += BOARD_ROWS - row + 1
+
+            # king
+            if val in [KING_COLOR[opponent_color], val == KING_COLOR[self.color]]:
+                score_score += BOARD_ROWS + 1
+
+        return my_score, score_score
 
     def __repr__(self):
         return '{} {}'.format(abstract.AbstractPlayer.__repr__(self), 'better h player')

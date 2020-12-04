@@ -14,11 +14,8 @@ class Player(SimpleP):
     def utility(self, state):
         return BetterP.utility(self, state)
 
-    def get_player_utility(self, board):
-        return BetterP.get_player_utility(self, board)
-
-    def get_opponent_utility(self, board):
-        return BetterP.get_opponent_utility(self, board)
+    def get_players_utility(self, board):
+        return BetterP.get_players_utility(self, board)
 
     def __repr__(self):
         return '{} {}'.format(abstract.AbstractPlayer.__repr__(self), 'improved better h player')
