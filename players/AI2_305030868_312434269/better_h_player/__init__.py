@@ -28,7 +28,7 @@ class Player(SimpleP):
 
     def get_players_utility(self, board):
         my_score = 0
-        score_score = 0
+        opponent_score = 0
         opponent_color = OPPONENT_COLOR[self.color]
 
         for (row, col), val in board.items():
@@ -38,13 +38,17 @@ class Player(SimpleP):
 
             # opponent's pawn
             if val == PAWN_COLOR[opponent_color]:
-                score_score += BOARD_ROWS - row + 1
+                opponent_score += BOARD_ROWS - row
 
-            # king
-            if val in [KING_COLOR[opponent_color], val == KING_COLOR[self.color]]:
-                score_score += BOARD_ROWS + 1
+            # my king
+            if val == KING_COLOR[self.color]:
+                my_score += BOARD_ROWS * 1.5
 
-        return my_score, score_score
+            # opponent's king
+            if val == KING_COLOR[opponent_color]:
+                opponent_score += BOARD_ROWS * 1.5
+
+        return my_score, opponent_score
 
     def __repr__(self):
         return '{} {}'.format(abstract.AbstractPlayer.__repr__(self), 'better h player')
