@@ -19,8 +19,8 @@ MOVES_PER_ROUND = 5
 SETUP_TIME = 2
 WINING_SCORE = 1
 TIE_SCORE = 0.5
-# plt.rcParams["figure.figsize"] = 15, 10
-# plt.rcParams["legend.loc"] = "upper right"
+plt.rcParams["figure.figsize"] = 15, 10
+plt.rcParams["legend.loc"] = "upper right"
 
 
 def run_players():
