@@ -3,6 +3,7 @@ from run_game import GameRunner
 from checkers.consts import TIE, BLACK_PLAYER, RED_PLAYER
 import matplotlib.pyplot as plt
 import csv
+from datetime import datetime
 
 F_NAME = "experiments.csv"
 PLAYERS_NAME = ["simple_player",
@@ -14,7 +15,7 @@ DISPLAY_PLAYERS_NAME = {"simple_player": "simple_player", "AI2_305030868_3124342
                         "AI2_305030868_312434269.improved_player": "improved_player",
                         "AI2_305030868_312434269.improved_better_h_player": "improved_better_h_player"}
 T = [2, 10, 50]
-# T = [0.2, 0.4]
+# T = [0.2, 0.3]
 MOVES_PER_ROUND = 5
 SETUP_TIME = 2
 WINING_SCORE = 1
@@ -29,7 +30,9 @@ def run_players():
                     "improved_player": [0]*len(T),
                     "improved_better_h_player": [0]*len(T)}
 
-    with open(F_NAME, mode="w") as f_csv:
+    now = datetime.now()
+
+    with open(F_NAME + "_" + str(now), mode="w") as f_csv:
         csv_writer = csv.writer(f_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         # for each time
@@ -68,7 +71,7 @@ def run_players():
 
     plt.title('Score as function of t')
     plt.legend()
-    plt.savefig("result.png")
+    plt.savefig(f"result{'_' + str(now)}.png")
     plt.show()
 
 
