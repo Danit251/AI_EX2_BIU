@@ -24,6 +24,7 @@ class Player(SimpleP):
         minimax = MiniMaxWithAlphaBetaPruning(self.utility, self.color, self.no_more_time,
                                               self.selective_deepening_criterion)
 
+        SAME_ALPHA = False
         # Iterative deepening until the time runs out.
         while True:
 
@@ -45,7 +46,7 @@ class Player(SimpleP):
                 print('no more time')
                 break
 
-            if alpha == prev_alpha:
+            if alpha == prev_alpha and SAME_ALPHA:
                 best_move = move
                 break
 
@@ -60,7 +61,10 @@ class Player(SimpleP):
                 print('all is lost')
                 break
 
-            current_depth += 1
+            if alpha == prev_alpha and not SAME_ALPHA:
+                current_depth += 4
+            else:
+                current_depth += 1
 
         if self.turns_remaining_in_round == 1:
             self.turns_remaining_in_round = self.k
