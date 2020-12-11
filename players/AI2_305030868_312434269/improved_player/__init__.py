@@ -68,7 +68,7 @@ class Player(SimpleP):
 
             if alpha == prev_alpha and not last_same_alpha:
                 last_same_alpha = True
-                current_depth += 4
+                current_depth += 2
             else:
                 current_depth += 1
 

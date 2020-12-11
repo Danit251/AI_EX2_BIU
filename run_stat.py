@@ -75,7 +75,7 @@ def run_players():
 
     plt.title('Score as function of t')
     plt.legend()
-    plt.savefig(f"result{'_' + str(now)}.png")
+    plt.savefig(f"result{'_jump_2_' + str(now)}.png")
     plt.show()
 
 
