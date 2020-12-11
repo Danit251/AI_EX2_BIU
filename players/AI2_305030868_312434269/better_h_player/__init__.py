@@ -3,7 +3,7 @@ from players.simple_player import Player as SimpleP
 from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW
 from utils import INFINITY
 
-KING_SCORE = 1.5
+KING_SCORE = 2
 
 
 class Player(SimpleP):
