@@ -24,7 +24,7 @@ class Player(SimpleP):
         minimax = MiniMaxWithAlphaBetaPruning(self.utility, self.color, self.no_more_time,
                                               self.selective_deepening_criterion)
 
-        SAME_ALPHA = False
+        last_same_alpha = False
         # Iterative deepening until the time runs out.
         while True:
 
@@ -46,7 +46,12 @@ class Player(SimpleP):
                 print('no more time')
                 break
 
-            if alpha == prev_alpha and SAME_ALPHA:
+            # change that the alpha is not same in a row
+            if alpha != prev_alpha and last_same_alpha:
+                last_same_alpha = False
+
+            # if twice in a row the lambda was equal - stop!
+            if alpha == prev_alpha and last_same_alpha:
                 best_move = move
                 break
 
@@ -61,7 +66,8 @@ class Player(SimpleP):
                 print('all is lost')
                 break
 
-            if alpha == prev_alpha and not SAME_ALPHA:
+            if alpha == prev_alpha and not last_same_alpha:
+                last_same_alpha = True
                 current_depth += 4
             else:
                 current_depth += 1
