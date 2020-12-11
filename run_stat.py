@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import csv
 from datetime import datetime
 
-F_NAME = "experiments.csv"
+F_NAME = "experiments{}.csv"
 PLAYERS_NAME = ["simple_player",
                 "AI2_305030868_312434269.better_h_player",
                 "AI2_305030868_312434269.improved_player",
@@ -32,7 +32,7 @@ def run_players():
 
     now = datetime.now()
 
-    with open(F_NAME + "_" + str(now), mode="w") as f_csv:
+    with open(F_NAME.format("_" + str(now)), mode="w") as f_csv:
         csv_writer = csv.writer(f_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
         # for each time
