@@ -4,6 +4,11 @@ from checkers.consts import TIE, BLACK_PLAYER, RED_PLAYER
 import matplotlib.pyplot as plt
 import csv
 from datetime import datetime
+import logging
+
+now = datetime.now().strftime("%H_%M_%S")
+logging.basicConfig(filename=f"log_{now}", level=logging.INFO)
+logger = logging.getLogger()
 
 F_NAME = "experiments{}.csv"
 PLAYERS_NAME = ["simple_player",
@@ -29,8 +34,6 @@ def run_players():
                     "better_h_player": [0]*len(T),
                     "improved_player": [0]*len(T),
                     "improved_better_h_player": [0]*len(T)}
-
-    now = datetime.now().strftime("%H_%M_%S")
 
     with open(F_NAME.format("_" + str(now)), mode="w") as f_csv:
         csv_writer = csv.writer(f_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
@@ -64,6 +67,7 @@ def run_players():
                         score2 = WINING_SCORE
 
                     csv_writer.writerow([DISPLAY_PLAYERS_NAME[player1], DISPLAY_PLAYERS_NAME[player2], t, score1, score2])
+                    logger.info(f" player1: {DISPLAY_PLAYERS_NAME[player1]}, player2: {DISPLAY_PLAYERS_NAME[player2]}, time: {t}, score1: {score1}, score2: {score2}")
 
     # plot
     for player_name in players_stat:
