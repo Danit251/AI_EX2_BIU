@@ -14,11 +14,13 @@ DISPLAY_PLAYERS_NAME = {"simple_player": "simple_player", "AI2_305030868_3124342
                         "AI2_305030868_312434269.improved_player": "improved_player",
                         "AI2_305030868_312434269.improved_better_h_player": "improved_better_h_player"}
 T = [2, 10, 50]
-# T = [2, 5]
+# T = [2]
 MOVES_PER_ROUND = 5
 SETUP_TIME = 2
 WINING_SCORE = 1
 TIE_SCORE = 0.5
+plt.rcParams["figure.figsize"] = 10, 15
+plt.rcParams["legend.loc"] = "upper right"
 
 
 def run_players():
@@ -59,10 +61,10 @@ def run_players():
                         score2 = WINING_SCORE
 
                     csv_writer.writerow([DISPLAY_PLAYERS_NAME[player1], DISPLAY_PLAYERS_NAME[player2], t, score1, score2])
-
+    plots = []
     # plot
     for player_name in players_stat:
-        plt.plot(T, players_stat[player_name], label=player_name)
+        line, _ = plt.plot(T, players_stat[player_name], label=player_name)
 
     plt.title('Score as function of t')
     plt.legend()
