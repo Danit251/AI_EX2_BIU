@@ -1,7 +1,9 @@
 import abstract
 from players.simple_player import Player as SimpleP
-from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS
+from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW
 from utils import INFINITY
+
+KING_SCORE = 1.5
 
 
 class Player(SimpleP):
@@ -34,19 +36,19 @@ class Player(SimpleP):
         for (row, col), val in board.items():
             # my pawn
             if val == PAWN_COLOR[self.color]:
-                my_score += row + 1
+                my_score += abs(BACK_ROW[self.color] - row) + 1
 
             # opponent's pawn
             if val == PAWN_COLOR[opponent_color]:
-                opponent_score += BOARD_ROWS - row
+                opponent_score += abs(BACK_ROW[opponent_color] - row) + 1
 
             # my king
             if val == KING_COLOR[self.color]:
-                my_score += BOARD_ROWS * 1.5
+                my_score += BOARD_ROWS * KING_SCORE
 
             # opponent's king
             if val == KING_COLOR[opponent_color]:
-                opponent_score += BOARD_ROWS * 1.5
+                opponent_score += BOARD_ROWS * KING_SCORE
 
         return my_score, opponent_score
 
