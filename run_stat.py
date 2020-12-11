@@ -30,7 +30,7 @@ def run_players():
                     "improved_player": [0]*len(T),
                     "improved_better_h_player": [0]*len(T)}
 
-    now = datetime.now()
+    now = datetime.now().strftime("%H_%M_%S")
 
     with open(F_NAME.format("_" + str(now)), mode="w") as f_csv:
         csv_writer = csv.writer(f_csv, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
