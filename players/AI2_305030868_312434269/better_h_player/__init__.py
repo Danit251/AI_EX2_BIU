@@ -86,7 +86,7 @@ class Player(SimpleP):
                                                                            col == BACK_ROW[player_color]]):
             score += 1.5
         pawn_score = abs(BACK_ROW[self.color] - row) + 1
-        if board_vals.count(PAWN_COLOR[player_color]) < board_vals.count(KING_COLOR[player_color]):
+        if board_vals.count(PAWN_COLOR[player_color]) <= board_vals.count(KING_COLOR[player_color]):
             pawn_score *= 2
         # elif board[row-1, col-1] != EM and board[row-1, col+1] != EM:
         #     score += 1.5
