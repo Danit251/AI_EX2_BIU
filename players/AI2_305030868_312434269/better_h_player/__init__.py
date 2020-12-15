@@ -1,6 +1,6 @@
 import abstract
 from players.simple_player import Player as SimpleP
-from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW
+from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW, EM
 from utils import INFINITY
 
 KING_SCORE = 1.5
@@ -32,32 +32,23 @@ class Player(SimpleP):
         my_score = 0
         opponent_score = 0
         opponent_color = OPPONENT_COLOR[self.color]
-        pawn_exists = False
-        my_kings_loc = []
-        opponent_kings_loc = []
 
         for (row, col), val in board.items():
             # my pawn
             if val == PAWN_COLOR[self.color]:
-                my_score += abs(BACK_ROW[self.color] - row) + 1
-                pawn_exists = True
+                my_score += self.pawn_score(self.color, board, row, col)
 
             # opponent's pawn
-            if val == PAWN_COLOR[opponent_color]:
-                opponent_score += abs(BACK_ROW[opponent_color] - row) + 1
-                pawn_exists = True
+            elif val == PAWN_COLOR[opponent_color]:
+                my_score += self.pawn_score(opponent_color, board, row, col)
 
             # my king
-            if val == KING_COLOR[self.color]:
-                my_score += BOARD_ROWS * KING_SCORE
-                my_score += self.bonus_safe_king(row, col)
-                # my_kings_loc.append((row, col))
+            elif val == KING_COLOR[self.color]:
+                my_score += self.king_score(row, col)
 
             # opponent's king
-            if val == KING_COLOR[opponent_color]:
-                opponent_score += BOARD_ROWS * KING_SCORE
-                opponent_score += self.bonus_safe_king(row, col)
-                # opponent_kings_loc.append((row, col))
+            elif val == KING_COLOR[opponent_color]:
+                opponent_score += self.king_score(row, col)
 
         # my_score += self.bonus_safe_king(board, my_kings_loc)
         # opponent_score += self.bonus_safe_king(board, opponent_kings_loc)
@@ -86,6 +77,25 @@ class Player(SimpleP):
                 col == BACK_ROW[OPPONENT_COLOR[self.color]]]):
             bonus += BOARD_ROWS * 0.5
         return bonus
+
+    def pawn_score(self, player_color, board, row, col):
+        score = 0
+
+        if row == BACK_ROW[OPPONENT_COLOR[player_color]]:
+            score += 1.5
+        elif board[row-1][col-1] != EM and board[row-1][col+1] != EM:
+            score += 1.5
+        elif board[row-1][col-1] != EM or board[row-1][col+1] != EM:
+            score += 0.5
+
+        score += abs(BACK_ROW[self.color] - row) + 1
+
+        return score
+
+    def king_score(self, row, col):
+        score = BOARD_ROWS * KING_SCORE
+        score += self.bonus_safe_king(row, col)
+        return score
 
     def __repr__(self):
         return '{} {}'.format(abstract.AbstractPlayer.__repr__(self), 'better h player')
