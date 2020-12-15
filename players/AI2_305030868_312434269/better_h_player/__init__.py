@@ -85,10 +85,10 @@ class Player(SimpleP):
                 col == BACK_ROW[OPPONENT_COLOR[player_color]],
                 col == BACK_ROW[player_color]]):
             score += 1.5
-        elif board[row-1, col-1] != EM and board[row-1, col+1] != EM:
-            score += 1.5
-        elif board[row-1, col-1] != EM or board[row-1, col+1] != EM:
-            score += 0.5
+        # elif board[row-1, col-1] != EM and board[row-1, col+1] != EM:
+        #     score += 1.5
+        # elif board[row-1, col-1] != EM or board[row-1, col+1] != EM:
+        #     score += 0.5
 
         score += abs(BACK_ROW[self.color] - row) + 1
 
