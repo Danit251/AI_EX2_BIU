@@ -80,10 +80,10 @@ class Player(SimpleP):
 
     def pawn_score(self, player_color, board, row, col):
         score = 0
-
-        if any([row == BACK_ROW[OPPONENT_COLOR[player_color]],
-                col == BACK_ROW[OPPONENT_COLOR[player_color]],
-                col == BACK_ROW[player_color]]):
+        board_vals = list(board.values())
+        if PAWN_COLOR[OPPONENT_COLOR[player_color]] in board_vals and any([row == BACK_ROW[OPPONENT_COLOR[player_color]],
+                                                                           col == BACK_ROW[OPPONENT_COLOR[player_color]],
+                                                                           col == BACK_ROW[player_color]]):
             score += 1.5
         # elif board[row-1, col-1] != EM and board[row-1, col+1] != EM:
         #     score += 1.5
