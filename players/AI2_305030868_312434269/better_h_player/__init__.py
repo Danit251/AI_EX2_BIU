@@ -2,6 +2,7 @@ import abstract
 from players.simple_player import Player as SimpleP
 from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW, EM
 from utils import INFINITY
+import numpy as np
 
 KING_SCORE = 2.2
 
@@ -9,6 +10,7 @@ KING_SCORE = 2.2
 class Player(SimpleP):
     def __init__(self, setup_time, player_color, time_per_k_turns, k):
         SimpleP.__init__(self, setup_time, player_color, time_per_k_turns, k)
+        self.going_forward = self.is_going_forward(player_color)
 
     def utility(self, state):
         if len(state.get_possible_moves()) == 0:
@@ -32,23 +34,46 @@ class Player(SimpleP):
         my_score = 0
         opponent_score = 0
         opponent_color = OPPONENT_COLOR[self.color]
-
+        middle = BOARD_ROWS * 0.5
+        # board_vals = np.array(list(board.values()))
+        # board_occurrences = dict(zip(np.unique(board_vals, PAWN_COLOR[self.color])))
+        # my_score += (board_vals == PAWN_COLOR[self.color]).sum()
         for (row, col), val in board.items():
             # my pawn
             if val == PAWN_COLOR[self.color]:
-                my_score += self.pawn_score(self.color, board, row, col)
-
+                # my_score += self.pawn_score(self.color, board, row, col)
+                if self.going_forward:
+                    if row > middle:
+                        my_score += 7
+                    else:
+                        my_score += 5
+                else:
+                    if row > middle:
+                        my_score += 5
+                    else:
+                        my_score += 7
             # opponent's pawn
             elif val == PAWN_COLOR[opponent_color]:
-                opponent_score += self.pawn_score(opponent_color, board, row, col)
-
+                # opponent_score += self.pawn_score(opponent_color, board, row, col)
+                if self.going_forward:
+                    if row > middle:
+                        my_score += 5
+                    else:
+                        my_score += 7
+                else:
+                    if row > middle:
+                        my_score += 7
+                    else:
+                        my_score += 5
             # my king
             elif val == KING_COLOR[self.color]:
-                my_score += self.king_score(board, self.color, row, col)
+                # my_score += self.king_score(board, self.color, row, col)
+                my_score += 10
 
             # opponent's king
             elif val == KING_COLOR[opponent_color]:
-                opponent_score += self.king_score(board, self.color, row, col)
+                # opponent_score += self.king_score(board, self.color, row, col)
+                opponent_score += 10
 
         # my_score += self.bonus_safe_king(board, my_kings_loc)
         # opponent_score += self.bonus_safe_king(board, opponent_kings_loc)
@@ -67,6 +92,11 @@ class Player(SimpleP):
             #     my_score += distance
 
         return my_score, opponent_score
+
+    def is_going_forward(self, player_color):
+        if BACK_ROW[player_color] > BACK_ROW[OPPONENT_COLOR[player_color]]:
+            return True
+        return False
 
     def bonus_safe_king(self, row, col):
         bonus = 0
