@@ -40,7 +40,7 @@ class Player(SimpleP):
 
             # opponent's pawn
             elif val == PAWN_COLOR[opponent_color]:
-                my_score += self.pawn_score(opponent_color, board, row, col)
+                opponent_score += self.pawn_score(opponent_color, board, row, col)
 
             # my king
             elif val == KING_COLOR[self.color]:
