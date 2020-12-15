@@ -3,7 +3,7 @@ from players.simple_player import Player as SimpleP
 from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW, EM
 from utils import INFINITY
 
-KING_SCORE = 1.5
+KING_SCORE = 2.2
 
 
 class Player(SimpleP):
@@ -85,12 +85,15 @@ class Player(SimpleP):
                                                                            col == BACK_ROW[OPPONENT_COLOR[player_color]],
                                                                            col == BACK_ROW[player_color]]):
             score += 1.5
+        pawn_score = abs(BACK_ROW[self.color] - row) + 1
+        if board_vals.count(PAWN_COLOR[player_color]) < board_vals.count(KING_COLOR[player_color]):
+            pawn_score *= 2
         # elif board[row-1, col-1] != EM and board[row-1, col+1] != EM:
         #     score += 1.5
         # elif board[row-1, col-1] != EM or board[row-1, col+1] != EM:
         #     score += 0.5
 
-        score += abs(BACK_ROW[self.color] - row) + 1
+        score += pawn_score
 
         return score
 
