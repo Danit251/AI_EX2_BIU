@@ -43,12 +43,12 @@ class Player(SimpleP):
             if val == PAWN_COLOR[self.color]:
                 # my_score += self.pawn_score(self.color, board, row, col)
                 if self.going_forward:
-                    if row > middle:
+                    if row >= middle - 1:
                         my_score += 7
                     else:
                         my_score += 5
                 else:
-                    if row > middle:
+                    if row >= middle - 1:
                         my_score += 5
                     else:
                         my_score += 7
@@ -56,12 +56,12 @@ class Player(SimpleP):
             elif val == PAWN_COLOR[opponent_color]:
                 # opponent_score += self.pawn_score(opponent_color, board, row, col)
                 if self.going_forward:
-                    if row > middle:
+                    if row >= middle - 1:
                         my_score += 5
                     else:
                         my_score += 7
                 else:
-                    if row > middle:
+                    if row >= middle - 1:
                         my_score += 7
                     else:
                         my_score += 5
