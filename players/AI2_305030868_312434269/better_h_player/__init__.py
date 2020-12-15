@@ -50,27 +50,42 @@ class Player(SimpleP):
             # my king
             if val == KING_COLOR[self.color]:
                 my_score += BOARD_ROWS * KING_SCORE
-                my_kings_loc.append((row, col))
+                my_score += self.bonus_safe_king(row, col)
+                # my_kings_loc.append((row, col))
 
             # opponent's king
             if val == KING_COLOR[opponent_color]:
                 opponent_score += BOARD_ROWS * KING_SCORE
-                opponent_kings_loc.append((row, col))
+                opponent_score += self.bonus_safe_king(row, col)
+                # opponent_kings_loc.append((row, col))
 
-        if not pawn_exists:
+        # my_score += self.bonus_safe_king(board, my_kings_loc)
+        # opponent_score += self.bonus_safe_king(board, opponent_kings_loc)
+
+        # if not pawn_exists:
             # print("There is no pawn!!!")
             # print(board.items())
-            distance = 0
+            # distance = 0
             # print(my_kings_loc, opponent_kings_loc)
-            for my_king in my_kings_loc:
-                for opp_king in opponent_kings_loc:
-                    distance += abs(opp_king[0] - my_king[0]) + abs(opp_king[1] - my_king[1])
-            if my_score >= opponent_score:
-                opponent_score += distance
-            else:
-                my_score += distance
+            # for my_king in my_kings_loc:
+            #     for opp_king in opponent_kings_loc:
+            #         distance += abs(opp_king[0] - my_king[0]) + abs(opp_king[1] - my_king[1])
+            # if my_score >= opponent_score:
+            #     opponent_score += distance
+            # else:
+            #     my_score += distance
 
         return my_score, opponent_score
+
+    def bonus_safe_king(self, row, col):
+        bonus = 0
+        # for (row, col) in kings_loc:
+        if any([row == BACK_ROW[self.color],
+                row == BACK_ROW[OPPONENT_COLOR[self.color]],
+                col == BACK_ROW[self.color],
+                col == BACK_ROW[OPPONENT_COLOR[self.color]]]):
+            bonus += BOARD_ROWS * 0.5
+        return bonus
 
     def __repr__(self):
         return '{} {}'.format(abstract.AbstractPlayer.__repr__(self), 'better h player')
