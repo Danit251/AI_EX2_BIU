@@ -2,7 +2,6 @@ import abstract
 from players.simple_player import Player as SimpleP
 from checkers.consts import PAWN_COLOR, KING_COLOR, OPPONENT_COLOR, MAX_TURNS_NO_JUMP, BOARD_ROWS, BACK_ROW, EM
 from utils import INFINITY
-import numpy as np
 
 KING_SCORE = 2.2
 
