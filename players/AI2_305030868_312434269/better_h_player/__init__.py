@@ -9,7 +9,6 @@ KING_SCORE = 2.2
 class Player(SimpleP):
     def __init__(self, setup_time, player_color, time_per_k_turns, k):
         SimpleP.__init__(self, setup_time, player_color, time_per_k_turns, k)
-        # self.going_forward = self.is_going_forward(player_color)
 
     def utility(self, state):
         if len(state.get_possible_moves()) == 0:
@@ -58,52 +57,16 @@ class Player(SimpleP):
         my_score += self.bonus_safe_king(board, my_kings_loc)
         opponent_score += self.bonus_safe_king(board, opponent_kings_loc)
 
-        # if not pawn_exists:
-            # print("There is no pawn!!!")
-            # print(board.items())
-            # distance = 0
-            # print(my_kings_loc, opponent_kings_loc)
-            # for my_king in my_kings_loc:
-            #     for opp_king in opponent_kings_loc:
-            #         distance += abs(opp_king[0] - my_king[0]) + abs(opp_king[1] - my_king[1])
-            # if my_score >= opponent_score:
-            #     opponent_score += distance
-            # else:
-            #     my_score += distance
-
         return my_score, opponent_score
 
     def bonus_safe_king(self, row, col):
         bonus = 0
-        # for (row, col) in kings_loc:
         if any([row == BACK_ROW[self.color],
                 row == BACK_ROW[OPPONENT_COLOR[self.color]],
                 col == BACK_ROW[self.color],
                 col == BACK_ROW[OPPONENT_COLOR[self.color]]]):
             bonus += BOARD_ROWS * 0.5
         return bonus
-
-    # def bonus_defense(self, board, player_color, row, col):
-    #     score = 0
-    #     board_vals = list(board.values())
-    #     if board_vals.count(KING_COLOR[OPPONENT_COLOR[player_color]]) <= 1:
-    #         if BACK_ROW[player_color] > BACK_ROW[OPPONENT_COLOR[player_color]]:
-    #             if row != 0:
-    #                 if (col == BACK_ROW[OPPONENT_COLOR[player_color]] or board[row-1, col-1] != EM) and \
-    #                    (col == BACK_ROW[player_color] or board[row-1, col+1] != EM):
-    #                     score += 2.5
-    #                 elif (col == BACK_ROW[OPPONENT_COLOR[player_color]] or board[row-1, col-1] != EM) or \
-    #                      (col == BACK_ROW[player_color] or board[row-1, col+1] != EM):
-    #                     score += 1.5
-    #         else:
-    #             if row != BACK_ROW[OPPONENT_COLOR[player_color]]:
-    #                 if (col == BACK_ROW[OPPONENT_COLOR[player_color]] or board[row+1, col+1] != EM) and \
-    #                    (col == BACK_ROW[player_color] or board[row+1, col-1] != EM):
-    #                     score += 2.5
-    #                 elif (col == BACK_ROW[OPPONENT_COLOR[player_color]] or board[row+1, col+1] != EM) or \
-    #                      (col == BACK_ROW[player_color] or board[row+1, col-1] != EM):
-    #                     score += 1.5
-    #     return score
 
     def pawn_score(self, player_color, board, row, col):
         score = 0
@@ -113,7 +76,6 @@ class Player(SimpleP):
                                                                            col == BACK_ROW[player_color]]):
             score += 1.5
 
-        # score += self.bonus_defense(board, player_color, row, col)
         pawn_score = abs(BACK_ROW[self.color] - row) + 1
         if board_vals.count(PAWN_COLOR[player_color]) <= board_vals.count(KING_COLOR[player_color]):
             pawn_score *= 2
@@ -124,7 +86,6 @@ class Player(SimpleP):
     def king_score(self, row, col):
         score = BOARD_ROWS * KING_SCORE
         score += self.bonus_safe_king(row, col)
-        # score += self.bonus_defense(board, player_color, row, col)
         return score
 
     def __repr__(self):

@@ -11,11 +11,5 @@ class Player(BetterP):
     def get_move(self, game_state, possible_moves):
         return ImprovedP.get_move(self, game_state, possible_moves)
 
-    # def utility(self, state):
-    #     return BetterP.utility(self, state)
-    #
-    # def get_players_utility(self, board):
-    #     return BetterP.get_players_utility(self, board)
-
     def __repr__(self):
         return '{} {}'.format(abstract.AbstractPlayer.__repr__(self), 'improved better h player')
