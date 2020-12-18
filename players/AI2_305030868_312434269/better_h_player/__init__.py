@@ -32,8 +32,6 @@ class Player(SimpleP):
         my_score = 0
         opponent_score = 0
         opponent_color = OPPONENT_COLOR[self.color]
-        my_kings_loc = []
-        opponent_kings_loc = []
         for (row, col), val in board.items():
 
             # my pawn
@@ -47,15 +45,10 @@ class Player(SimpleP):
             # my king
             elif val == KING_COLOR[self.color]:
                 my_score += self.king_score(row, col)
-                my_kings_loc.append((row, col))
 
             # opponent's king
             elif val == KING_COLOR[opponent_color]:
                 opponent_score += self.king_score(row, col)
-                opponent_kings_loc.append((row, col))
-
-        my_score += self.bonus_safe_king(board, my_kings_loc)
-        opponent_score += self.bonus_safe_king(board, opponent_kings_loc)
 
         return my_score, opponent_score
 
